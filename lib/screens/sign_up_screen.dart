@@ -1,7 +1,12 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:instagram_fullstack_clone/shared/input_field.dart';
 import 'package:instagram_fullstack_clone/utils/colors.dart';
 import 'package:instagram_fullstack_clone/utils/image_links.dart';
+import 'package:instagram_fullstack_clone/services/auth_service.dart';
+import 'package:instagram_fullstack_clone/utils/utils.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -16,30 +21,44 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _bioController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  // nullable because initially its gonna be null which is used to show a default pfp
+  Uint8List? _image;
 
-  void asYouType(TextEditingController controller) {
-    // "Modifying the composing region from within a listener can also have a bad interaction with some input methods.
-    // Gboard, for example, will try to restore the composing region of the text if it was modified programmatically,
-    // creating an infinite loop of communications between the framework and the input method. Consider using
-    // TextInputFormatters instead for as-you-type text modification."
-    String cutieString = controller.value.text;
-    cutieString = cutieString.replaceAll('aus', 'Cutie');
-    controller.value = controller.value.copyWith(
-        text: cutieString,
-        selection: TextSelection.fromPosition(
-            TextPosition(offset: cutieString.length)),
-        composing: TextRange(start: 0, end: cutieString.length));
+// * this was used to manupulate as-you-type
+  // void asYouType(TextEditingController controller) {
+  //   // "Modifying the composing region from within a listener can also have a bad interaction with some input methods.
+  //   // Gboard, for example, will try to restore the composing region of the text if it was modified programmatically,
+  //   // creating an infinite loop of communications between the framework and the input method. Consider using
+  //   // TextInputFormatters instead for as-you-type text modification."
+  //   String cutieString = controller.value.text;
+  //   // todo refactor with a simpe loop and list of words
+  //   cutieString = cutieString.replaceAll('aus', 'Cutie');
+  //   cutieString = cutieString.replaceAll('taye', 'Dat girl from zouth africa');
+  //   cutieString = cutieString.replaceAll('alex', 'english fookin twat');
+  //
+  //   controller.value = controller.value.copyWith(
+  //       text: cutieString,
+  //       selection: TextSelection.fromPosition(
+  //           TextPosition(offset: cutieString.length)),
+  //       composing: TextRange(start: 0, end: cutieString.length));
+  // }
+  //
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _userNameController.addListener(() => asYouType(_userNameController));
+  //   _bioController.addListener(() => asYouType(_bioController));
+  //   _emailController.addListener(() => asYouType(_emailController));
+  // }
+
+  // no need for a function but whatever :D
+  void selectImage() async {
+    Uint8List? image = await pickImage(ImageSource.gallery);
+    // using the variable  [image] not to return a [Future] inside setState
+    setState(() => _image = image);
   }
 
-  @override
-  void initState() {
-    super.initState();
-    _userNameController.addListener(() => asYouType(_userNameController));
-    _bioController.addListener(() => asYouType(_bioController));
-    _emailController.addListener(() => asYouType(_emailController));
-  }
-
-  // clear up resources when controllers are no longer needed
+  // * clear up resources when controllers are no longer needed
   @override
   void dispose() {
     super.dispose();
@@ -64,18 +83,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     children: [
                       // * Circular avatar profilePicture
                       Stack(children: [
-                        const CircleAvatar(
-                          radius: 64,
-                          backgroundImage:
-                              NetworkImage('https://bit.ly/3tYoz5V'),
-                        ),
+                        _image == null
+                            ? const CircleAvatar(
+                                radius: 64,
+                                backgroundImage:
+                                    NetworkImage('https://bit.ly/3tYoz5V'))
+                            : CircleAvatar(
+                                radius: 64,
+                                backgroundImage: MemoryImage(_image!)),
                         Positioned(
+                            bottom: -10,
+                            left: 80,
                             child: IconButton(
-                          onPressed: () {},
-                          icon: const Icon(Icons.add_a_photo),
-                        ))
+                              onPressed: () => selectImage(),
+                              icon: const Icon(Icons.add_a_photo),
+                            ))
                       ]),
-                      const SizedBox(height: 28),
+                      const SizedBox(height: 64),
                       // * userName
                       InputField(
                         controller: _userNameController,
@@ -107,7 +131,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       const SizedBox(height: 24),
                       // todo hehe maybe change it to an [ElevatedButton]
                       InkWell(
-                          onTap: () {},
+                          onTap: () async {
+                            await AuthService().emailSignUp(
+                                username: _userNameController.text,
+                                bio: _bioController.text,
+                                email: _emailController.text,
+                                password: _passwordController.text,
+                                file: _image!);
+                          },
                           child: Container(
                               alignment: Alignment.center,
                               padding: const EdgeInsets.symmetric(vertical: 12),

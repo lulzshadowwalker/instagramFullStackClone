@@ -24,6 +24,10 @@ class _SigninScreenState extends State<SigninScreen> {
       // TextInputFormatters instead for as-you-type text modification."
       String cutieString = _emailController.value.text;
       cutieString = cutieString.replaceAll('aus', 'Cutie');
+      cutieString =
+          cutieString.replaceAll('Taye', 'dat girl from zouth africa');
+      cutieString = cutieString.replaceAll('alex', 'english fookin twat');
+
       _emailController.value = _emailController.value.copyWith(
           text: cutieString,
           selection: TextSelection.fromPosition(
