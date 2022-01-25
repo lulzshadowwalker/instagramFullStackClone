@@ -2,12 +2,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:instagram_fullstack_clone/responsive/responsive_layout.dart';
-import 'package:instagram_fullstack_clone/responsive/web_layout.dart';
-import 'package:instagram_fullstack_clone/screens/login_screen.dart';
+import 'package:instagram_fullstack_clone/screens/sign_in_screen.dart';
+import 'package:instagram_fullstack_clone/screens/sign_up_screen.dart';
 import 'package:instagram_fullstack_clone/utils/colors.dart';
-
-import 'responsive/mobile_layout.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -44,6 +41,6 @@ class MyApp extends StatelessWidget {
         // home: const ResponsiveLayout(
         //   mobileLayout: MobileLayout(),
         //   webLayout: WebLayout(),
-        home: const LoginScreen());
+        home: const SignUpScreen());
   }
 }
