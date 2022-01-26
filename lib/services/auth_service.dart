@@ -53,8 +53,25 @@ class AuthService {
   }
 
   // sign in with email and password
-  void emailSignIn({required String email, required String password}) async {
-    UserCredential credential = await _auth.signInWithEmailAndPassword(
-        email: email, password: password);
+  Future<String> emailSignIn({
+    required String email,
+    required String password,
+  }) async {
+    // this deafult value is very unlikely to be ever returned but good practice
+    String response = 'some error occured';
+    try {
+      // field checking can be done using form validators from the UI but whatever
+      if (email.isNotEmpty && password.isNotEmpty) {
+        // no need to store userCerdentials in this project
+        await _auth.signInWithEmailAndPassword(
+            email: email, password: password);
+        response = 'rawr, sign in successful';
+      } else {
+        response = 'provide email/password';
+      }
+    } catch (err) {
+      response = err.toString();
+    }
+    return response;
   }
 }

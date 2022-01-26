@@ -2,10 +2,9 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:instagram_fullstack_clone/services/auth_service.dart';
 import 'package:instagram_fullstack_clone/shared/input_field.dart';
 import 'package:instagram_fullstack_clone/utils/colors.dart';
-import 'package:instagram_fullstack_clone/utils/image_links.dart';
-import 'package:instagram_fullstack_clone/services/auth_service.dart';
 import 'package:instagram_fullstack_clone/utils/utils.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -23,8 +22,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _passwordController = TextEditingController();
   // nullable because initially its gonna be null which is used to show a default pfp
   Uint8List? _image;
+  bool _isLoading = false;
 
-// * this was used to manupulate as-you-type
+  // * this was used to manupulate as-you-type
   // void asYouType(TextEditingController controller) {
   //   // "Modifying the composing region from within a listener can also have a bad interaction with some input methods.
   //   // Gboard, for example, will try to restore the composing region of the text if it was modified programmatically,
@@ -70,6 +70,27 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
+    void signUpUser() async {
+      setState(() => _isLoading = true);
+      String response = await AuthService().emailSignUp(
+          username: _userNameController.text,
+          bio: _bioController.text,
+          email: _emailController.text,
+          password: _passwordController.text,
+          file: _image!);
+
+      setState(() => _isLoading = false);
+
+      if (response != 'Sign up successful') {
+        giveSnackBar(
+          context,
+          response,
+        );
+      } else {
+        giveSnackBar(context, 'rawr, success!');
+      }
+    }
+
     // todo remove Scaffold when no longer needed
     return Scaffold(
         body: SafeArea(
@@ -131,24 +152,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       const SizedBox(height: 24),
                       // todo hehe maybe change it to an [ElevatedButton]
                       InkWell(
-                          onTap: () async {
-                            await AuthService().emailSignUp(
-                                username: _userNameController.text,
-                                bio: _bioController.text,
-                                email: _emailController.text,
-                                password: _passwordController.text,
-                                file: _image!);
-                          },
-                          child: Container(
-                              alignment: Alignment.center,
-                              padding: const EdgeInsets.symmetric(vertical: 12),
-                              width: double.infinity,
-                              decoration: ShapeDecoration(
-                                  color: Colors.blue,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(4),
-                                  )),
-                              child: const Text('Sign up'))),
+                          onTap: signUpUser,
+                          child: _isLoading
+                              ? const Center(child: CircularProgressIndicator())
+                              : Container(
+                                  alignment: Alignment.center,
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 12),
+                                  width: double.infinity,
+                                  decoration: ShapeDecoration(
+                                      color: Colors.blue,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(4),
+                                      )),
+                                  child: const Text('Sign up'))),
                       Padding(
                         padding: const EdgeInsets.only(top: 24),
                         child: Row(

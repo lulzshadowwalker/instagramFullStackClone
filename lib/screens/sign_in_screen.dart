@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:instagram_fullstack_clone/screens/home_screen.dart';
+import 'package:instagram_fullstack_clone/services/auth_service.dart';
 import 'package:instagram_fullstack_clone/shared/input_field.dart';
 import 'package:instagram_fullstack_clone/utils/colors.dart';
 import 'package:instagram_fullstack_clone/utils/image_links.dart';
+import 'package:instagram_fullstack_clone/utils/utils.dart';
 
 class SigninScreen extends StatefulWidget {
   const SigninScreen({Key? key}) : super(key: key);
@@ -14,6 +17,7 @@ class _SigninScreenState extends State<SigninScreen> {
   // using a [Form] and [FormTextFields would be more efficient here but no harm in trying new stuff ^^
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool _isLoading = false;
   @override
   void initState() {
     super.initState();
@@ -46,6 +50,21 @@ class _SigninScreenState extends State<SigninScreen> {
 
   @override
   Widget build(BuildContext context) {
+    void signInUser() async {
+      setState(() => _isLoading = true);
+
+      String response = await AuthService().emailSignIn(
+        email: _emailController.text,
+        password: _passwordController.text,
+      );
+
+      setState(() => _isLoading = false);
+      if (response == 'rawr, sign in successful') {
+        // todo something :D
+      }
+      giveSnackBar(context, response);
+    }
+
     // todo remove Scaffold when no longer needed
     return Scaffold(
         body: SafeArea(
@@ -62,7 +81,7 @@ class _SigninScreenState extends State<SigninScreen> {
                         height: 256,
                       ),
                       const SizedBox(
-                        height: 64,
+                        height: 48,
                       ),
                       InputField(
                         controller: _emailController,
@@ -79,16 +98,21 @@ class _SigninScreenState extends State<SigninScreen> {
                       const SizedBox(height: 24),
                       // todo hehe maybe change it to an [ElevatedButton]
                       InkWell(
-                          child: Container(
-                              alignment: Alignment.center,
-                              padding: const EdgeInsets.symmetric(vertical: 12),
-                              width: double.infinity,
-                              decoration: ShapeDecoration(
-                                  color: Colors.blue,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(4),
-                                  )),
-                              child: const Text('Sign in'))),
+                          onTap: signInUser,
+                          child: _isLoading
+                              ? const Center(
+                                  child: CircularProgressIndicator.adaptive())
+                              : Container(
+                                  alignment: Alignment.center,
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 12),
+                                  width: double.infinity,
+                                  decoration: ShapeDecoration(
+                                      color: Colors.blue,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(4),
+                                      )),
+                                  child: const Text('Sign in'))),
                       Expanded(
                           child: Padding(
                         padding: const EdgeInsets.only(bottom: 24.0),

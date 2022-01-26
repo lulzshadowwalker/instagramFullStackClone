@@ -18,6 +18,14 @@ and the main difference is that `doc` allows you to set the document id while ad
 > get a reference to where you wanna save the file
 > upload it
 > wait till the uploadTask is done and return the downloadUrl
+- using `Navigator` might be the best way ( especially with Firebase ) because the state would not presist one solution might be to use a `StreamProvider` that listens to `authStateChanges`
+```dart
+  Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (_) => const HomeScreen(),
+            ));
+```
 
 
 ## notable packages
