@@ -2,6 +2,10 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:instagram_fullstack_clone/responsive/mobile_layout.dart';
+import 'package:instagram_fullstack_clone/responsive/responsive_layout.dart';
+import 'package:instagram_fullstack_clone/responsive/web_layout.dart';
+import 'package:instagram_fullstack_clone/screens/sign_in_screen.dart';
 import 'package:instagram_fullstack_clone/services/auth_service.dart';
 import 'package:instagram_fullstack_clone/shared/input_field.dart';
 import 'package:instagram_fullstack_clone/utils/colors.dart';
@@ -87,6 +91,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
           response,
         );
       } else {
+        navigateReplacementTo(
+            context,
+            const ResponsiveLayout(
+                webLayout: WebLayout(), mobileLayout: MobileLayout()));
         giveSnackBar(context, 'rawr, success!');
       }
     }
@@ -177,14 +185,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 style: Theme.of(context).textTheme.bodyText1,
                               ),
                               // todo maake it a textbutton im lazy now
-                              Text(
-                                'Sign in ',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyText1
-                                    ?.copyWith(
-                                        fontWeight: FontWeight.bold,
-                                        color: blueColor),
+                              InkWell(
+                                onTap: () => navigateReplacementTo(
+                                    context, const SigninScreen()),
+                                child: Text(
+                                  'Sign in ',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1
+                                      ?.copyWith(
+                                          fontWeight: FontWeight.bold,
+                                          color: blueColor),
+                                ),
                               ),
                             ]),
                       )

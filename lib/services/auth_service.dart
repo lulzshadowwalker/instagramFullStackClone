@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:instagram_fullstack_clone/models/user_model.dart';
 import 'package:instagram_fullstack_clone/services/storage_service.dart';
 
 class AuthService {
@@ -27,21 +28,23 @@ class AuthService {
           .createUserWithEmailAndPassword(email: email, password: password);
 
       // before saving userdata in Firestore we have to make sure to save the pfp in the storage
-      String photourl = await StorageService()
+      String photoUrl = await StorageService()
           .uploadImageToStorage(childName: 'profile pictures', file: file);
+
+      LulzUser _user = LulzUser(
+        username: username,
+        bio: bio,
+        email: email,
+        userId: userCredential.user!.uid,
+        photoUrl: photoUrl,
+        following: [],
+        followers: [],
+      );
 
       // I think those two check are suffiecient because Firebase checks for the email and password and file cannot be null
       if (username.isNotEmpty && bio.isNotEmpty) {
         String? userId = userCredential.user?.uid;
-        await _firestore.collection('users').doc(userId).set({
-          'userId': userId,
-          'username': username,
-          'bio': bio,
-          'email': email,
-          'following': [],
-          'followers': [],
-          'photoUrl': photourl
-        });
+        await _firestore.collection('users').doc(userId).set(_user.toJson());
 
         response = 'Sign up successful';
       }
@@ -73,5 +76,21 @@ class AuthService {
       response = err.toString();
     }
     return response;
+  }
+
+  // sign out
+  void signOut() async {
+    await _auth.signOut();
+  }
+
+  // get user details
+  Future<LulzUser> getUserDetails() async {
+    User? currentUser = FirebaseAuth.instance.currentUser;
+    DocumentSnapshot doc = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(currentUser!.uid)
+        .get();
+
+    return LulzUser.fromSnap(doc);
   }
 }

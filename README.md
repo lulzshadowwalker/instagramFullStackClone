@@ -26,6 +26,7 @@ and the main difference is that `doc` allows you to set the document id while ad
               builder: (_) => const HomeScreen(),
             ));
 ```
+- when debugging on e.g. Chrome or Edge Sign-in state wouldn't be persistent unlike ios simulator or android emulator because it simply creates a new instance every time \\
 
 
 ## notable packages

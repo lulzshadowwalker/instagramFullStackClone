@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:instagram_fullstack_clone/screens/home_screen.dart';
+import 'package:instagram_fullstack_clone/screens/sign_up_screen.dart';
 import 'package:instagram_fullstack_clone/services/auth_service.dart';
 import 'package:instagram_fullstack_clone/shared/input_field.dart';
 import 'package:instagram_fullstack_clone/utils/colors.dart';
@@ -124,14 +125,19 @@ class _SigninScreenState extends State<SigninScreen> {
                                 'Don\'t have an account ? ',
                                 style: Theme.of(context).textTheme.bodyText1,
                               ),
-                              Text(
-                                'Sign up ',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyText1
-                                    ?.copyWith(
-                                        fontWeight: FontWeight.bold,
-                                        color: blueColor),
+                              // inkwell aligns better with the other text than a TextButton
+                              InkWell(
+                                onTap: () => navigateReplacementTo(
+                                    context, const SignUpScreen()),
+                                child: Text(
+                                  'Sign up ',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1
+                                      ?.copyWith(
+                                          fontWeight: FontWeight.bold,
+                                          color: blueColor),
+                                ),
                               ),
                             ]),
                       ))
