@@ -10,6 +10,18 @@ class MobileLayout extends StatefulWidget {
 }
 
 class _MobileLayoutState extends State<MobileLayout> {
+  final PageController _pageController = PageController();
+
+  @override
+  void dispose() {
+    super.dispose();
+    _pageController.dispose();
+  }
+
+  void navigationTapepd(int page) {
+    _pageController.jumpToPage(page);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,6 +37,7 @@ class _MobileLayoutState extends State<MobileLayout> {
         type: BottomNavigationBarType.fixed,
         backgroundColor: mobileBackgroundColor,
         selectedItemColor: primaryColor,
+        onTap: navigationTapepd,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(Icons.search), label: ''),
           BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
