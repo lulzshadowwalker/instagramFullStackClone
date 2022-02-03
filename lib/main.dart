@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:instagram_fullstack_clone/screens/sign_in_screen.dart';
-import 'package:instagram_fullstack_clone/screens/sign_up_screen.dart';
 import 'package:instagram_fullstack_clone/utils/colors.dart';
 
 void main() async {

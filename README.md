@@ -26,6 +26,7 @@ and the main difference is that `doc` allows you to set the document id while ad
               builder: (_) => const HomeScreen(),
             ));
 ```
+- command palette -> "dart: use recommended settings"
 
 
 ## notable packages
