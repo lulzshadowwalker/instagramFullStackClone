@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:instagram_fullstack_clone/services/auth_service.dart';
 import 'package:instagram_fullstack_clone/utils/colors.dart';
 
 class MobileLayout extends StatefulWidget {
@@ -10,37 +9,46 @@ class MobileLayout extends StatefulWidget {
 }
 
 class _MobileLayoutState extends State<MobileLayout> {
+  // ? initState
   final PageController _pageController = PageController();
-
+  int _currentIndex = 0;
   @override
   void dispose() {
     super.dispose();
     _pageController.dispose();
   }
 
-  void navigationTapepd(int page) {
-    _pageController.jumpToPage(page);
-  }
+  
+  void navigationTapped(int pageIndex) => _pageController.jumpToPage(pageIndex);
+
+  // setting _currentIndex here is better "if" you want to swipe besides using the navigation bar
+  void _onPageChanged(int pageIndex) =>
+      setState(() => _currentIndex = pageIndex);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-          child: TextButton(
-        onPressed: () => AuthService().signOut(),
-        child: Text(
-          'mobileLayout\nWelcome back',
-          style: Theme.of(context).textTheme.bodyText1,
-        ),
-      )),
+      body: PageView(
+        controller: _pageController,
+        onPageChanged: _onPageChanged,
+        physics: const NeverScrollableScrollPhysics(),
+        children: const [
+          Center(child: Text('home')),
+          Center(child: Text('search')),
+          Center(child: Text('upload')),
+          Center(child: Text('favorite')),
+          Center(child: Text('profile')),
+        ],
+      ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         backgroundColor: mobileBackgroundColor,
         selectedItemColor: primaryColor,
-        onTap: navigationTapepd,
+        currentIndex: _currentIndex,
+        onTap: navigationTapped,
         items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.search), label: ''),
           BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
+          BottomNavigationBarItem(icon: Icon(Icons.search), label: ''),
           BottomNavigationBarItem(icon: Icon(Icons.add_circle), label: ''),
           BottomNavigationBarItem(icon: Icon(Icons.favorite), label: ''),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: ''),
