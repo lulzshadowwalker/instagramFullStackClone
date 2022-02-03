@@ -24,3 +24,9 @@ giveSnackBar(BuildContext context, String content) {
     content: Text(content),
   ));
 }
+
+// navigate to page ( to avoid the repetition of the boilerplate code )
+void navigateReplacementTo(BuildContext context, Widget widget) {
+  Navigator.of(context)
+      .pushReplacement(MaterialPageRoute(builder: (context) => widget));
+}

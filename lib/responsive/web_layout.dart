@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:instagram_fullstack_clone/services/auth_service.dart';
 
 // this layout is used for web/desktop
 class WebLayout extends StatelessWidget {
@@ -8,9 +9,12 @@ class WebLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Center(
-            child: Text(
-      'webLayout',
-      style: Theme.of(context).textTheme.bodyText1,
+            child: TextButton(
+      onPressed: () => AuthService().signOut(),
+      child: Text(
+        'webLayout',
+        style: Theme.of(context).textTheme.bodyText1,
+      ),
     )));
   }
 }
