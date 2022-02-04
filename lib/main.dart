@@ -8,7 +8,6 @@ import 'package:instagram_fullstack_clone/responsive/mobile_layout.dart';
 import 'package:instagram_fullstack_clone/responsive/responsive_layout.dart';
 import 'package:instagram_fullstack_clone/responsive/web_layout.dart';
 import 'package:instagram_fullstack_clone/screens/sign_in_screen.dart';
-import 'package:instagram_fullstack_clone/screens/sign_up_screen.dart';
 import 'package:instagram_fullstack_clone/utils/colors.dart';
 import 'package:provider/provider.dart';
 
