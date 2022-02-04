@@ -56,7 +56,7 @@ class MyApp extends StatelessWidget {
               if (snapshot.connectionState == ConnectionState.active) {
                 // if connection is active and snapshot has data (signed in)
                 // alternatively we can probably just null-check the [User] that is being returned
-                // which is the better because without it (which is what we're doing here) we'll end up with
+                // which is better because without it (which is what we're doing here) we'll end up with
                 // redundant code for showing home screen on sign-in/up so using a wrapper on main is better imo
                 if (snapshot.hasData) {
                   return const ResponsiveLayout(
