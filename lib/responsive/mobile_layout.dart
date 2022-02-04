@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:instagram_fullstack_clone/screens/new_post_screen.dart';
+import 'package:instagram_fullstack_clone/screens/profile_screen.dart';
 import 'package:instagram_fullstack_clone/utils/colors.dart';
 
 class MobileLayout extends StatefulWidget {
@@ -18,7 +20,6 @@ class _MobileLayoutState extends State<MobileLayout> {
     _pageController.dispose();
   }
 
-  
   void navigationTapped(int pageIndex) => _pageController.jumpToPage(pageIndex);
 
   // setting _currentIndex here is better "if" you want to swipe besides using the navigation bar
@@ -33,11 +34,11 @@ class _MobileLayoutState extends State<MobileLayout> {
         onPageChanged: _onPageChanged,
         physics: const NeverScrollableScrollPhysics(),
         children: const [
+          NewPostScreen(),
           Center(child: Text('home')),
           Center(child: Text('search')),
-          Center(child: Text('upload')),
           Center(child: Text('favorite')),
-          Center(child: Text('profile')),
+          ProfileScreen(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(

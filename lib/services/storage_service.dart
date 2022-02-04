@@ -12,7 +12,7 @@ class StorageService {
     required Uint8List file,
     bool isPost = false,
   }) async {
-    // get a reference to the folder structure you wanna save the file in
+  // get a reference to the folder structure you wanna save the file in
     Reference reference =
         _storage.ref().child(childName).child(_auth.currentUser!.uid);
 

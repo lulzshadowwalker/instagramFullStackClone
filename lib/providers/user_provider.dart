@@ -1,14 +1,16 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/widgets.dart';
 import 'package:instagram_fullstack_clone/models/user_model.dart';
 import 'package:instagram_fullstack_clone/services/auth_service.dart';
 
-class UserProvider extends ChangeNotifier {
+class UserProvider with ChangeNotifier {
   LulzUser? _user;
-  final AuthService _auth = AuthService();
+  final AuthService _authService = AuthService();
 
-  LulzUser? get getUser => _user;
+  LulzUser get getUser => _user!;
+
   Future<void> refreshUser() async {
-    _user = await _auth.getUserDetails();
+    LulzUser user = await _authService.getUserDetails();
+    _user = user;
     notifyListeners();
   }
 }

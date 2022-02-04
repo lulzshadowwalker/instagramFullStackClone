@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_fullstack_clone/screens/home_screen.dart';
 import 'package:instagram_fullstack_clone/screens/sign_up_screen.dart';
@@ -77,8 +78,8 @@ class _SigninScreenState extends State<SigninScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const Image(
-                        image: NetworkImage(logoInstagram),
+                      CachedNetworkImage(
+                        imageUrl: logoInstagram,
                         height: 256,
                       ),
                       const SizedBox(
