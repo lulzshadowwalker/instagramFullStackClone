@@ -28,8 +28,14 @@ and the main difference is that `doc` allows you to set the document id while ad
 ```
 - command palette -> "dart: use recommended settings"
 - when debugging on e.g. Chrome or Edge Sign-in state wouldn't be persistent unlike ios simulator or android emulator because it simply creates a new instance every time \\
-
-
+- to use e.g. Provider in `initState` which needs a `BuildContext` you need to make sure that it has been inserted into the widget tree first
+> for more info: https://stackoverflow.com/questions/56395081/unhandled-exception-inheritfromwidgetofexacttype-localizationsscope-or-inheri \\
+> https://stackoverflow.com/questions/64186001/what-is-the-difference-between-future-delayedduration-zero-and-schedul \\ 
+- `MultiProvider` takes a list of providers and you can basically `create` and instantiate a provider and pass it down or "provide" it to the children. also, when creating a new instance of a provider in the providers list, its better to use `create` rather than `value`. You can access the provider from a child widget through e.g. `context.read<T>()` which is similar to `Provider.of<T>(context, listens: false)` except that it cannot be used within a `build` function.
+> for more info: https://stackoverflow.com/questions/62432759/why-cant-i-use-context-read-in-build-but-i-can-use-provider-of-with-listen \\ 
+or `context.watch<T>()` which is similar to `Provider.of<T>(context, listens: true)` (it's `true` by default) except that unlike `read` it has to be used within the `build` function
+> for a little more info about ChangeNotifier and Provider: https://youtu.be/NeAMD0lQ5jw \\ 
+> for more info about accessing the `BuildContext` from `initState`: https://youtu.be/NeAMD0lQ5jw \\
 ## notable packages
 
 ## vscode

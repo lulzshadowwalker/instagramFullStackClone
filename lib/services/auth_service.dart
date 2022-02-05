@@ -91,10 +91,6 @@ class AuthService {
         .doc(currentUser!.uid)
         .get();
 
-    if (currentUser == null) {
-      print('FUCKING CURRENT USER IS FUCKING NULL');
-    }
-
     return LulzUser.fromSnap(doc);
   }
 
