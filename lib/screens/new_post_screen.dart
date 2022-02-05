@@ -3,9 +3,12 @@ import 'dart:typed_data';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:instagram_fullstack_clone/models/user_model.dart';
+import 'package:instagram_fullstack_clone/providers/user_provider.dart';
 import 'package:instagram_fullstack_clone/services/storage_service.dart';
 import 'package:instagram_fullstack_clone/utils/colors.dart';
 import 'package:instagram_fullstack_clone/utils/utils.dart';
+import 'package:provider/provider.dart';
 
 class NewPostScreen extends StatefulWidget {
   const NewPostScreen({Key? key}) : super(key: key);
@@ -17,6 +20,7 @@ class NewPostScreen extends StatefulWidget {
 class _NewPostScreenState extends State<NewPostScreen> {
   Uint8List? _file;
   final TextEditingController _descriptionController = TextEditingController();
+  LulzUser? _user;
 
   _selectImage() async {
     showDialog(
@@ -67,8 +71,24 @@ class _NewPostScreenState extends State<NewPostScreen> {
             ));
   }
 
+  getFuckingUser() {
+    UserProvider _userProvider = Provider.of<UserProvider>(context);
+    _user = _userProvider.getUser;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      if (mounted) {
+        getFuckingUser();
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    getFuckingUser();
     // todo there might be a better way not to enst scaffold's within each other
     return Scaffold(
       appBar: AppBar(
@@ -115,9 +135,9 @@ class _NewPostScreenState extends State<NewPostScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const CircleAvatar(
+                    CircleAvatar(
                       backgroundImage: CachedNetworkImageProvider(
-                        'https://cdn.discordapp.com/attachments/883805503564705803/939057131037003786/RDT_20220203_1021064234842342618388185.jpg',
+                        _user!.photoUrl,
                       ),
                       radius: 25,
                     ),

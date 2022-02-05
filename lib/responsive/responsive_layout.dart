@@ -21,7 +21,10 @@ class _ResponsiveLayoutState extends State<ResponsiveLayout> {
   @override
   void initState() {
     super.initState();
-    addData();
+    Future.delayed(
+      Duration.zero,
+      () => addData(),
+    );
   }
 
   addData() async {

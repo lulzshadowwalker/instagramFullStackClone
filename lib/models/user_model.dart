@@ -9,8 +9,8 @@ class LulzUser {
   final String email;
   final String userId;
   final String photoUrl;
-  final List<String> following;
-  final List<String> followers;
+  final List following;
+  final List followers;
 
   LulzUser({
     required this.username,
@@ -37,6 +37,7 @@ class LulzUser {
   // static so we don't have to instantiate it late and pass all the parameters because it ultimately defeats the point of this function
   static LulzUser fromSnap(DocumentSnapshot snapshot) {
     // or
+
     // (doc.data() as Map<String, dynamic>) ['username'];
     return LulzUser(
       username: snapshot['username'],
