@@ -85,12 +85,23 @@ class AuthService {
 
   // get user details
   Future<LulzUser> getUserDetails() async {
-    User? currentUser = FirebaseAuth.instance.currentUser;
+    User? currentUser = _auth.currentUser;
     DocumentSnapshot doc = await FirebaseFirestore.instance
         .collection('users')
         .doc(currentUser!.uid)
         .get();
 
     return LulzUser.fromSnap(doc);
+  }
+
+  // test to replace change notifier
+  // ! depricated
+  Stream<LulzUser?> get userDetails {
+    String userId = _auth.currentUser!.uid;
+    return FirebaseFirestore.instance
+        .collection('users')
+        .doc(userId)
+        .snapshots()
+        .map(LulzUser.fromSnap);
   }
 }

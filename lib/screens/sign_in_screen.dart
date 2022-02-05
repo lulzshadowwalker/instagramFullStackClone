@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_fullstack_clone/screens/home_screen.dart';
 import 'package:instagram_fullstack_clone/screens/sign_up_screen.dart';
@@ -19,27 +20,27 @@ class _SigninScreenState extends State<SigninScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _isLoading = false;
-  @override
-  void initState() {
-    super.initState();
-    _emailController.addListener(() {
-      // "Modifying the composing region from within a listener can also have a bad interaction with some input methods.
-      // Gboard, for example, will try to restore the composing region of the text if it was modified programmatically,
-      // creating an infinite loop of communications between the framework and the input method. Consider using
-      // TextInputFormatters instead for as-you-type text modification."
-      String cutieString = _emailController.value.text;
-      cutieString = cutieString.replaceAll('aus', 'Cutie');
-      cutieString =
-          cutieString.replaceAll('Taye', 'dat girl from zouth africa');
-      cutieString = cutieString.replaceAll('alex', 'english fookin twat');
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _emailController.addListener(() {
+  //     // "Modifying the composing region from within a listener can also have a bad interaction with some input methods.
+  //     // Gboard, for example, will try to restore the composing region of the text if it was modified programmatically,
+  //     // creating an infinite loop of communications between the framework and the input method. Consider using
+  //     // TextInputFormatters instead for as-you-type text modification."
+  //     String cutieString = _emailController.value.text;
+  //     cutieString = cutieString.replaceAll('aus', 'Cutie');
+  //     cutieString =
+  //         cutieString.replaceAll('Taye', 'dat girl from zouth africa');
+  //     cutieString = cutieString.replaceAll('alex', 'english fookin twat');
 
-      _emailController.value = _emailController.value.copyWith(
-          text: cutieString,
-          selection: TextSelection.fromPosition(
-              TextPosition(offset: cutieString.length)),
-          composing: TextRange(start: 0, end: cutieString.length));
-    });
-  }
+  //     _emailController.value = _emailController.value.copyWith(
+  //         text: cutieString,
+  //         selection: TextSelection.fromPosition(
+  //             TextPosition(offset: cutieString.length)),
+  //         composing: TextRange(start: 0, end: cutieString.length));
+  //   });
+  // }
 
   // clear up resources when controllers are no longer needed
   @override
@@ -77,8 +78,8 @@ class _SigninScreenState extends State<SigninScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const Image(
-                        image: NetworkImage(logoInstagram),
+                      CachedNetworkImage(
+                        imageUrl: logoInstagram,
                         height: 256,
                       ),
                       const SizedBox(
