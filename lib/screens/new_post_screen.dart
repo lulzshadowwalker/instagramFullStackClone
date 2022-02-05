@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:instagram_fullstack_clone/models/user_model.dart';
 import 'package:instagram_fullstack_clone/providers/user_provider.dart';
+import 'package:instagram_fullstack_clone/services/firestore_service.dart';
 import 'package:instagram_fullstack_clone/services/storage_service.dart';
 import 'package:instagram_fullstack_clone/utils/colors.dart';
 import 'package:instagram_fullstack_clone/utils/utils.dart';
@@ -86,6 +87,16 @@ class _NewPostScreenState extends State<NewPostScreen> {
     });
   }
 
+  void _uploadPost() async {
+    String response = await FirestoreService().uploadPost(
+        description: _descriptionController.text,
+        file: _file!,
+        userId: _user!.userId,
+        username: _user!.username,
+        pfpImage: _user!.photoUrl);
+    giveSnackBar(context, response);
+  }
+
   @override
   Widget build(BuildContext context) {
     getFuckingUser();
@@ -101,11 +112,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
         centerTitle: false,
         actions: [
           TextButton(
-            onPressed: () => StorageService().uploadImageToStorage(
-              childName: 'posts',
-              file: _file!,
-              isPost: true,
-            ),
+            onPressed: _uploadPost,
             child: Text(
               'Post',
               style: Theme.of(context).textTheme.bodyText1?.copyWith(

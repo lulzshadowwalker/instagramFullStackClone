@@ -4,15 +4,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 class StorageService {
-  FirebaseStorage _storage = FirebaseStorage.instance;
-  FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseStorage _storage = FirebaseStorage.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<String> uploadImageToStorage({
     required String childName,
     required Uint8List file,
     bool isPost = false,
   }) async {
-  // get a reference to the folder structure you wanna save the file in
+    // get a reference to the folder structure you wanna save the file in
     Reference reference =
         _storage.ref().child(childName).child(_auth.currentUser!.uid);
 
