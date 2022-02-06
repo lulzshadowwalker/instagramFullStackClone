@@ -32,7 +32,6 @@ class FirestoreService {
           pfpImage: pfpImage,
           postUrl: postUrl,
           likes: []);
-
       // * save the post in a sub-collection of userId
       await _firestore
           .collection('users')
@@ -46,7 +45,7 @@ class FirestoreService {
     } catch (err) {
       response = err.toString();
     }
-    
+
     return response;
   }
 }

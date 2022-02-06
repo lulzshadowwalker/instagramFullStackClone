@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:instagram_fullstack_clone/screens/feed_screen.dart';
 import 'package:instagram_fullstack_clone/screens/new_post_screen.dart';
 import 'package:instagram_fullstack_clone/screens/profile_screen.dart';
 import 'package:instagram_fullstack_clone/utils/colors.dart';
@@ -34,9 +35,9 @@ class _MobileLayoutState extends State<MobileLayout> {
         onPageChanged: _onPageChanged,
         physics: const NeverScrollableScrollPhysics(),
         children: const [
-          NewPostScreen(),
-          Center(child: Text('home')),
+          FeedScreen(),
           Center(child: Text('search')),
+          NewPostScreen(),
           Center(child: Text('favorite')),
           ProfileScreen(),
         ],
