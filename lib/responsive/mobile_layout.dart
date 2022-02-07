@@ -34,7 +34,7 @@ class _MobileLayoutState extends State<MobileLayout> {
         controller: _pageController,
         onPageChanged: _onPageChanged,
         physics: const NeverScrollableScrollPhysics(),
-        children: const [
+        children:  [
           FeedScreen(),
           Center(child: Text('search')),
           NewPostScreen(),
@@ -44,6 +44,8 @@ class _MobileLayoutState extends State<MobileLayout> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
+        selectedIconTheme: const IconThemeData(size: 35),
+        unselectedIconTheme: const IconThemeData(size: 30),
         backgroundColor: mobileBackgroundColor,
         selectedItemColor: primaryColor,
         currentIndex: _currentIndex,

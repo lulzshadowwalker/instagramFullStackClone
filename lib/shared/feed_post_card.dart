@@ -1,8 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:instagram_fullstack_clone/utils/colors.dart';
 
 class FeedPostCard extends StatelessWidget {
   const FeedPostCard({Key? key}) : super(key: key);
+  
 
   void _feedMoreButton(BuildContext context) {
     List<Widget> actions = [
@@ -66,6 +68,7 @@ class FeedPostCard extends StatelessWidget {
     return Padding(
         padding: const EdgeInsets.symmetric(vertical: 10),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // * header section
             Padding(
@@ -152,6 +155,61 @@ class FeedPostCard extends StatelessWidget {
               ],
             ),
             // * description
+            const Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 17),
+                child: Text(
+                  '1,288 Likes',
+                ),
+              ),
+            ),
+            const SizedBox(height: 5),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 17.0),
+              child: RichText(
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                text: TextSpan(
+                    style: Theme.of(context).textTheme.bodyText1,
+                    children: [
+                      TextSpan(
+                        text: 'lulzshadowwalker\t',
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyText1
+                            ?.copyWith(fontWeight: FontWeight.bold),
+                      ),
+                      const TextSpan(
+                          text: 'everything in life seems to be stuttering'),
+                    ]),
+              ),
+            ),
+            const SizedBox(height: 5),
+
+            InkWell(
+                onTap: () {},
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Text(
+                    'view all 288 comments',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText1
+                        ?.copyWith(color: secondaryColor),
+                  ),
+                )),
+            // * code and paddings here are very messy ik whatever
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Text(
+                '28/12/2009',
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1
+                    ?.copyWith(color: secondaryColor),
+              ),
+            )
           ],
         ));
   }

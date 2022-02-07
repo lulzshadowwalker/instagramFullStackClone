@@ -3,7 +3,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:instagram_fullstack_clone/models/user_model.dart';
 import 'package:instagram_fullstack_clone/providers/user_provider.dart';
 import 'package:instagram_fullstack_clone/responsive/mobile_layout.dart';
 import 'package:instagram_fullstack_clone/responsive/responsive_layout.dart';
