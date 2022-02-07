@@ -22,6 +22,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
   Uint8List? _file;
   final TextEditingController _descriptionController = TextEditingController();
   LulzUser? _user;
+  bool _isLoading = false;
 
   _selectImage() async {
     showDialog(
@@ -88,12 +89,19 @@ class _NewPostScreenState extends State<NewPostScreen> {
   }
 
   void _uploadPost() async {
+    setState(() => _isLoading = true);
+
     String response = await FirestoreService().uploadPost(
         description: _descriptionController.text,
         file: _file!,
         userId: _user!.userId,
         username: _user!.username,
         pfpImage: _user!.photoUrl);
+
+    setState(() {
+      _isLoading = false;
+      _file = null;
+    });
     giveSnackBar(context, response);
   }
 
@@ -106,7 +114,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
         backgroundColor: mobileBackgroundColor,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: () {},
+          onPressed: () => setState(() => _file = null),
         ),
         title: Text('add post', style: Theme.of(context).textTheme.bodyText1),
         centerTitle: false,
@@ -138,6 +146,10 @@ class _NewPostScreenState extends State<NewPostScreen> {
           Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
+                _isLoading == true
+                    ? const LinearProgressIndicator()
+                    : Container(),
+                const Divider(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.start,
