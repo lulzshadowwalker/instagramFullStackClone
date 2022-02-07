@@ -5,7 +5,8 @@ import 'package:instagram_fullstack_clone/shared/feed_post_card.dart';
 import 'package:instagram_fullstack_clone/utils/colors.dart';
 
 class FeedScreen extends StatelessWidget {
-  const FeedScreen({Key? key}) : super(key: key);
+  FeedScreen({Key? key}) : super(key: key);
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -33,13 +34,40 @@ class FeedScreen extends StatelessWidget {
               AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
             if (snapshot.connectionState == ConnectionState.active) {
               return ListView.builder(
+                shrinkWrap: false,
                 itemCount: snapshot.data?.docs.length,
                 itemBuilder: (BuildContext context, int index) {
-                  // or simply use var or dynamic
-                  QueryDocumentSnapshot<Map<String, dynamic>> doc =
-                      snapshot.data!.docs[index];
+                  String docId = snapshot.data!.docs[index].id;
 
-                  return FeedPostCard();
+                  return StreamBuilder(
+                      stream: _firestore
+                          .collection('users')
+                          .doc(docId)
+                          .collection('posts')
+                          .snapshots(),
+                      builder: (context,
+                          AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
+                              snapshot) {
+                        if (snapshot.connectionState ==
+                                ConnectionState.active &&
+                            snapshot.hasData) {
+                          return ListView.builder(
+                              shrinkWrap: true,
+                              physics: const ClampingScrollPhysics(),
+                              itemCount: snapshot.data!.docs.length,
+                              itemBuilder: (context, index) {
+                                Map<String, dynamic>? postData =
+                                    snapshot.data?.docs[index].data();
+
+                                if (postData == null ) {
+                                  return Container();
+                                }
+                                return  FeedPostCard(postData);
+                              });
+                        } else {
+                          return Container();
+                        }
+                      });
                 },
               );
             } else {

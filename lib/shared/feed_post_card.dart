@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:instagram_fullstack_clone/utils/colors.dart';
 
 class FeedPostCard extends StatelessWidget {
-  const FeedPostCard({Key? key}) : super(key: key);
-  
+  FeedPostCard(this.postData, {Key? key}) : super(key: key);
+  Map<String, dynamic>? postData;
 
   void _feedMoreButton(BuildContext context) {
     List<Widget> actions = [
@@ -76,10 +76,11 @@ class FeedPostCard extends StatelessWidget {
                     .copyWith(right: 0),
                 child: Row(
                   children: [
-                    const CircleAvatar(
+                    CircleAvatar(
                       radius: 16,
                       backgroundImage: CachedNetworkImageProvider(
-                          'https://images.unsplash.com/photo-1518020382113-a7e8fc38eac9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MzJ8fHByb2ZpbGUlMjBwaWN0dXJlfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60'),
+                        postData?['pfpImage'],
+                      ),
                     ),
                     Expanded(
                       child: Padding(
@@ -88,7 +89,7 @@ class FeedPostCard extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'lulzshadowwalker',
+                              postData?['username'],
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyText1
@@ -110,8 +111,7 @@ class FeedPostCard extends StatelessWidget {
                 height: MediaQuery.of(context).size.height * 0.35,
                 width: double.infinity,
                 child: CachedNetworkImage(
-                    imageUrl:
-                        'https://images.unsplash.com/photo-1644080140822-19101927e7e5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw2N3x8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=60',
+                    imageUrl: postData?['postUrl'],
                     filterQuality: FilterQuality.high,
                     fit: BoxFit.cover)),
             // * interaction section
@@ -174,14 +174,15 @@ class FeedPostCard extends StatelessWidget {
                     style: Theme.of(context).textTheme.bodyText1,
                     children: [
                       TextSpan(
-                        text: 'lulzshadowwalker\t',
+                        text: '${postData?['username']}\t',
                         style: Theme.of(context)
                             .textTheme
                             .bodyText1
                             ?.copyWith(fontWeight: FontWeight.bold),
                       ),
-                      const TextSpan(
-                          text: 'everything in life seems to be stuttering'),
+                      TextSpan(
+                          text: postData?['description'] ??
+                              'everything in life seems to be stuttering'),
                     ]),
               ),
             ),
@@ -204,10 +205,8 @@ class FeedPostCard extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Text(
                 '28/12/2009',
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText1
-                    ?.copyWith(color: secondaryColor),
+                style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                    color: secondaryColor.withOpacity(0.6), fontSize: 12),
               ),
             )
           ],
