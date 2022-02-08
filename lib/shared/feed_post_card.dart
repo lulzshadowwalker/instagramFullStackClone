@@ -1,10 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_fullstack_clone/utils/colors.dart';
+import 'package:intl/intl.dart';
 
 class FeedPostCard extends StatelessWidget {
-  FeedPostCard(this.postData, {Key? key}) : super(key: key);
-  Map<String, dynamic>? postData;
+  const FeedPostCard(this.postData, {Key? key}) : super(key: key);
+  final Map<String, dynamic>? postData;
 
   void _feedMoreButton(BuildContext context) {
     List<Widget> actions = [
@@ -155,12 +156,12 @@ class FeedPostCard extends StatelessWidget {
               ],
             ),
             // * description
-            const Align(
+            Align(
               alignment: Alignment.centerLeft,
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 17),
+                padding: const EdgeInsets.symmetric(horizontal: 17),
                 child: Text(
-                  '1,288 Likes',
+                  '${postData?['likes'].length} likes',
                 ),
               ),
             ),
@@ -204,12 +205,13 @@ class FeedPostCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Text(
-                '28/12/2009',
+                DateFormat.yMMMd().format(postData?['datePublished'].toDate()),
                 style: Theme.of(context).textTheme.bodyText1?.copyWith(
                     color: secondaryColor.withOpacity(0.6), fontSize: 12),
               ),
             )
           ],
+        
         ));
   }
 }

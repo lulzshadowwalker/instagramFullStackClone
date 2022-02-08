@@ -36,9 +36,13 @@ and the main difference is that `doc` allows you to set the document id while ad
 or `context.watch<T>()` which is similar to `Provider.of<T>(context, listens: true)` (it's `true` by default) except that unlike `read` it has to be used within the `build` function
 > for a little more info about ChangeNotifier and Provider: https://youtu.be/NeAMD0lQ5jw <br> 
 > for more info about accessing the `BuildContext` from `initState`: https://youtu.be/NeAMD0lQ5jw <br>
+- [interesting, flutter pub add](https://dart.dev/tools/pub/cmd/pub-add)
+- one problem with the way you fetch data for the post card is that e.g. the username isnt dynamic meaning that it wouldnt update if the user updates his username, one fix would be to go through all posts and changing the username or simply saving the userId which is immutable and fetch the username from the user document
+> `~/` operator means divide and then convert or cast to `int`
 ## notable packages
 - [cached network image](https://pub.dev/packages/cached_network_image)
 - [uuid to generate new key values](https://pub.dev/packages/uuid)
+- [intl for handling date formats by dart.dev](https://pub.dev/packages/intl)
 ## vscode
 ### extensions
 - (PubspecAssist: https://marketplace.visualstudio.com/items?itemName=jeroen-meijer.pubspec-assist) add multiple packages at once ez 

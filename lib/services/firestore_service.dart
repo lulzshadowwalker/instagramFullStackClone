@@ -22,7 +22,7 @@ class FirestoreService {
           .uploadImageToStorage(childName: 'posts', file: file, isPost: true);
 
       // * generate unique post key based on current time
-      String postId = const Uuid().v1();
+      String postId = const Uuid().v4();
       LulzPost post = LulzPost(
           description: description,
           userId: userId,
