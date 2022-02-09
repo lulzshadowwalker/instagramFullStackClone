@@ -59,10 +59,14 @@ class FeedScreen extends StatelessWidget {
                                 Map<String, dynamic>? postData =
                                     snapshot.data?.docs[index].data();
 
-                                if (postData == null ) {
-                                  return Container();
+                                // this shouldnt have been necessary but i think i forget to set a postId as docId maybe whatever, this'll fix it
+                                String? postDocId =
+                                    snapshot.data?.docs[index].id;
+
+                                if (postData != null && postDocId != null) {
+                                  return FeedPostCard(postData, postDocId);
                                 }
-                                return  FeedPostCard(postData);
+                                return Container();
                               });
                         } else {
                           return Container();

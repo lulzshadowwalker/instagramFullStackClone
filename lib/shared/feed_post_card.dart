@@ -1,11 +1,31 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:instagram_fullstack_clone/screens/comments_screen.dart';
+import 'package:instagram_fullstack_clone/services/firestore_service.dart';
 import 'package:instagram_fullstack_clone/utils/colors.dart';
 import 'package:intl/intl.dart';
 
-class FeedPostCard extends StatelessWidget {
-  const FeedPostCard(this.postData, {Key? key}) : super(key: key);
+class FeedPostCard extends StatefulWidget {
+  const FeedPostCard(this.postData, this.postDocId, {Key? key})
+      : super(key: key);
   final Map<String, dynamic>? postData;
+  final String? postDocId;
+
+  @override
+  State<FeedPostCard> createState() => _FeedPostCardState();
+}
+
+class _FeedPostCardState extends State<FeedPostCard> {
+  bool _like = false;
+
+  void _likePost() async {
+    setState(() => _like = !_like);
+    await FirestoreService()
+        .likePost(widget.postData?['userId'], widget.postDocId, _like);
+    print('doc new value: ${widget.postData?['likes']}');
+    print(
+        'uid: ${widget.postData?['userId']}, postId: ${widget.postData?['postId']}');
+  }
 
   void _feedMoreButton(BuildContext context) {
     List<Widget> actions = [
@@ -80,7 +100,8 @@ class FeedPostCard extends StatelessWidget {
                     CircleAvatar(
                       radius: 16,
                       backgroundImage: CachedNetworkImageProvider(
-                        postData?['pfpImage'],
+                        widget.postData?['pfpImage'] ??
+                            'https://bit.ly/3HDtqOd',
                       ),
                     ),
                     Expanded(
@@ -90,7 +111,7 @@ class FeedPostCard extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              postData?['username'],
+                              widget.postData?['username'] ?? 'username',
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyText1
@@ -112,7 +133,8 @@ class FeedPostCard extends StatelessWidget {
                 height: MediaQuery.of(context).size.height * 0.35,
                 width: double.infinity,
                 child: CachedNetworkImage(
-                    imageUrl: postData?['postUrl'],
+                    imageUrl:
+                        widget.postData?['postUrl'] ?? 'https://bit.ly/3HDtqOd',
                     filterQuality: FilterQuality.high,
                     fit: BoxFit.cover)),
             // * interaction section
@@ -120,18 +142,24 @@ class FeedPostCard extends StatelessWidget {
             Row(
               children: [
                 IconButton(
-                  highlightColor: Colors.transparent,
-                  splashColor: Colors.transparent,
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.favorite,
-                    color: Colors.red,
-                  ),
-                ),
+                    highlightColor: Colors.transparent,
+                    splashColor: Colors.transparent,
+                    onPressed: _likePost,
+                    icon: Icon(
+                      widget.postData?['likes']
+                              .contains(widget.postData?['userId'])
+                          ? Icons.favorite
+                          : Icons.favorite_border,
+                      color: widget.postData?['likes']
+                              .contains(widget.postData?['userId'])
+                          ? Colors.red
+                          : Colors.grey[300],
+                    )),
                 IconButton(
                   highlightColor: Colors.transparent,
                   splashColor: Colors.transparent,
-                  onPressed: () {},
+                  onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const CommentsScreen())),
                   icon: const Icon(
                     Icons.comment,
                   ),
@@ -161,7 +189,7 @@ class FeedPostCard extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 17),
                 child: Text(
-                  '${postData?['likes'].length} likes',
+                  '${widget.postData?['likes'].length} likes',
                 ),
               ),
             ),
@@ -175,14 +203,14 @@ class FeedPostCard extends StatelessWidget {
                     style: Theme.of(context).textTheme.bodyText1,
                     children: [
                       TextSpan(
-                        text: '${postData?['username']}\t',
+                        text: '${widget.postData?['username']}\t',
                         style: Theme.of(context)
                             .textTheme
                             .bodyText1
                             ?.copyWith(fontWeight: FontWeight.bold),
                       ),
                       TextSpan(
-                          text: postData?['description'] ??
+                          text: widget.postData?['description'] ??
                               'everything in life seems to be stuttering'),
                     ]),
               ),
@@ -205,13 +233,13 @@ class FeedPostCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Text(
-                DateFormat.yMMMd().format(postData?['datePublished'].toDate()),
+                DateFormat.yMMMd()
+                    .format(widget.postData?['datePublished'].toDate() ?? ''),
                 style: Theme.of(context).textTheme.bodyText1?.copyWith(
                     color: secondaryColor.withOpacity(0.6), fontSize: 12),
               ),
             )
           ],
-        
         ));
   }
 }

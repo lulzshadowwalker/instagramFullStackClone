@@ -6,7 +6,7 @@ import 'package:instagram_fullstack_clone/services/storage_service.dart';
 import 'package:uuid/uuid.dart';
 
 class FirestoreService {
-  FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   // * upload post
   Future<String> uploadPost({
@@ -47,5 +47,37 @@ class FirestoreService {
     }
 
     return response;
+  }
+
+  // register a like
+  // this function wouldnt be called if postId is null
+  Future<void> likePost(String userId, String? postId, bool isLiked) async {
+    try {
+      if (!isLiked) {
+        print('liking post');
+        await _firestore
+            .collection('users')
+            .doc(userId)
+            .collection('posts')
+            .doc(postId)
+            .update({
+          'likes': FieldValue.arrayRemove([userId])
+        });
+        print('liked post');
+      } else {
+        print('unliking post');
+        await _firestore
+            .collection('users')
+            .doc(userId)
+            .collection('posts')
+            .doc(postId)
+            .update({
+          'likes': FieldValue.arrayUnion([userId])
+        });
+        print('unliked post');
+      }
+    } catch (e) {
+      print({'[FOK] ${e.toString()}'});
+    }
   }
 }

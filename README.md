@@ -39,6 +39,7 @@ or `context.watch<T>()` which is similar to `Provider.of<T>(context, listens: tr
 - [interesting, flutter pub add](https://dart.dev/tools/pub/cmd/pub-add)
 - one problem with the way you fetch data for the post card is that e.g. the username isnt dynamic meaning that it wouldnt update if the user updates his username, one fix would be to go through all posts and changing the username or simply saving the userId which is immutable and fetch the username from the user document
 > `~/` operator means divide and then convert or cast to `int`
+- [`viewInsets, 'The parts of the display that are completely obscured by system UI, typically by the device's keyboard.'](https://api.flutter.dev/flutter/widgets/MediaQueryData/viewInsets.html)
 ## notable packages
 - [cached network image](https://pub.dev/packages/cached_network_image)
 - [uuid to generate new key values](https://pub.dev/packages/uuid)
