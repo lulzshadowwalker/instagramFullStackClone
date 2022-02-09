@@ -6,7 +6,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:instagram_fullstack_clone/models/user_model.dart';
 import 'package:instagram_fullstack_clone/providers/user_provider.dart';
 import 'package:instagram_fullstack_clone/services/firestore_service.dart';
-import 'package:instagram_fullstack_clone/services/storage_service.dart';
 import 'package:instagram_fullstack_clone/utils/colors.dart';
 import 'package:instagram_fullstack_clone/utils/utils.dart';
 import 'package:provider/provider.dart';

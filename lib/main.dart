@@ -1,4 +1,3 @@
-import 'package:device_preview/device_preview.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
@@ -9,7 +8,6 @@ import 'package:instagram_fullstack_clone/responsive/mobile_layout.dart';
 import 'package:instagram_fullstack_clone/responsive/responsive_layout.dart';
 import 'package:instagram_fullstack_clone/responsive/web_layout.dart';
 import 'package:instagram_fullstack_clone/screens/sign_in_screen.dart';
-import 'package:instagram_fullstack_clone/services/auth_service.dart';
 import 'package:instagram_fullstack_clone/utils/colors.dart';
 import 'package:provider/provider.dart';
 
@@ -31,12 +29,11 @@ void main() async {
     await Firebase.initializeApp();
   }
 
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({Key? key}) : super(key: key);
-  final AuthService _auth = AuthService();
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

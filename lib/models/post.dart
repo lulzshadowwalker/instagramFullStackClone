@@ -8,7 +8,7 @@ class LulzPost {
   final DateTime datePublished;
   final String pfpImage;
   final String postUrl;
-  final likes;
+  final dynamic likes;
 
   LulzPost({
     required this.description,

@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_fullstack_clone/screens/comments_screen.dart';
 import 'package:instagram_fullstack_clone/services/firestore_service.dart';
@@ -17,6 +18,29 @@ class FeedPostCard extends StatefulWidget {
 
 class _FeedPostCardState extends State<FeedPostCard> {
   bool _like = false;
+  int _commentLength = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    print(
+        'users -> ${widget.postData?['userId']} -> posts -> ${widget.postData?['postId']} -> comments ');
+
+    getCommentLength();
+  }
+
+  void getCommentLength() async {
+    QuerySnapshot comments = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(widget.postData?['userId'])
+        .collection('posts')
+        .doc(widget.postData?['postId'])
+        .collection('comments')
+        .get();
+
+    _commentLength = comments.docs.length;
+    setState(() {});
+  }
 
   void _likePost() async {
     setState(() => _like = !_like);
@@ -159,7 +183,8 @@ class _FeedPostCardState extends State<FeedPostCard> {
                   highlightColor: Colors.transparent,
                   splashColor: Colors.transparent,
                   onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const CommentsScreen())),
+                      builder: (context) =>
+                          CommentsScreen(snap: widget.postData))),
                   icon: const Icon(
                     Icons.comment,
                   ),
@@ -221,12 +246,17 @@ class _FeedPostCardState extends State<FeedPostCard> {
                 onTap: () {},
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text(
-                    'view all 288 comments',
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyText1
-                        ?.copyWith(color: secondaryColor),
+                  child: InkWell(
+                    onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) =>
+                            CommentsScreen(snap: widget.postData))),
+                    child: Text(
+                      'view all $_commentLength comments',
+                      style: Theme.of(context)
+                          .textTheme 
+                          .bodyText1
+                          ?.copyWith(color: secondaryColor),
+                    ),
                   ),
                 )),
             // * code and paddings here are very messy ik whatever

@@ -11,7 +11,6 @@ class UserProvider with ChangeNotifier {
   Future<void> refreshUser() async {
     LulzUser user = await _authService.getUserDetails();
     _user = user;
-    print('refreshed user');
     notifyListeners();
   }
 }

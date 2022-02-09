@@ -8,6 +8,8 @@ class StorageService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<String> uploadImageToStorage({
+    
+    
     required String childName,
     required Uint8List file,
     bool isPost = false,

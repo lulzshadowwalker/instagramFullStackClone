@@ -14,8 +14,8 @@ Future<Uint8List?> pickImage(ImageSource source) async {
     // we did not use e.g. File(_file.path) because it's from dart:io which is not accessible on web
     return await _file.readAsBytes();
   }
-  return null;
   print('No image selcted');
+  return null;
 }
 
 // snackbar

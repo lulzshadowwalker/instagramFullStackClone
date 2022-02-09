@@ -37,7 +37,7 @@ class FirestoreService {
           .collection('users')
           .doc(userId)
           .collection('posts')
-          .doc()
+          .doc(postId)
           .set(post.toJson());
 
       // * probably better to use enum here
@@ -80,4 +80,46 @@ class FirestoreService {
       print({'[FOK] ${e.toString()}'});
     }
   }
-}
+
+  // upload comment
+  // probably better to dynamically fetch the username using userId in-case some user changes the username
+  Future<void> postComment({
+    required String postUserId,
+    required String commentUserId,
+    required String profilePic,
+    required String content,
+    required String postId,
+    required String username,
+  }) async {
+    try {
+      if (content.isNotEmpty) {
+        // generate doc id key
+        String commentDocId = const Uuid().v1();
+
+        // hehe ik
+        _firestore
+            .collection('users')
+            .doc(postUserId)
+            .collection('posts')
+            .doc(postId)
+            .collection('comments')
+            .doc(commentDocId)
+            .set({
+          'username': username,
+          'postUserId': postUserId,
+          'commentUserId': commentUserId,
+          'profilePic': profilePic,
+          'content': content,
+          'postId': postId,
+          'datePublished': DateTime.now()
+        });
+        print('loolz all good');
+      } else {
+        print('no content in comment, comment is empty');
+      }
+    } catch (e) {
+      print('fukfuk');
+      print(e.toString());
+    }
+  }
+} // end firestore service
