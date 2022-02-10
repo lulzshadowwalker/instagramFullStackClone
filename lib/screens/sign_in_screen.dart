@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:instagram_fullstack_clone/screens/home_screen.dart';
 import 'package:instagram_fullstack_clone/screens/sign_up_screen.dart';
 import 'package:instagram_fullstack_clone/services/auth_service.dart';
 import 'package:instagram_fullstack_clone/shared/input_field.dart';

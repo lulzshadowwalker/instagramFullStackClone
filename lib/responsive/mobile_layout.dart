@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:instagram_fullstack_clone/screens/feed_screen.dart';
 import 'package:instagram_fullstack_clone/screens/new_post_screen.dart';
 import 'package:instagram_fullstack_clone/screens/profile_screen.dart';
+import 'package:instagram_fullstack_clone/screens/search_screen.dart';
 import 'package:instagram_fullstack_clone/utils/colors.dart';
 
 class MobileLayout extends StatefulWidget {
@@ -34,12 +35,12 @@ class _MobileLayoutState extends State<MobileLayout> {
         controller: _pageController,
         onPageChanged: _onPageChanged,
         physics: const NeverScrollableScrollPhysics(),
-        children:  [
+        children: [
+           SearchScreen(),
           FeedScreen(),
-          Center(child: Text('search')),
-          NewPostScreen(),
-          Center(child: Text('favorite')),
-          ProfileScreen(),
+          const NewPostScreen(),
+          const Center(child: Text('favorite')),
+          const ProfileScreen(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(

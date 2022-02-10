@@ -30,6 +30,7 @@ class _FeedPostCardState extends State<FeedPostCard> {
   }
 
   void getCommentLength() async {
+    // listening to a stream is better because it'd be real time
     QuerySnapshot comments = await FirebaseFirestore.instance
         .collection('users')
         .doc(widget.postData?['userId'])
@@ -54,7 +55,11 @@ class _FeedPostCardState extends State<FeedPostCard> {
   void _feedMoreButton(BuildContext context) {
     List<Widget> actions = [
       InkWell(
-        onTap: () {},
+        onTap: () async => await FirestoreService().deletePost(
+          userId: widget.postData?['userId'],
+          postId: widget.postData?['postId'],
+          context: context,
+        ),
         child: ListTile(
             leading: const Icon(Icons.delete, color: Colors.black),
             title: Text('delete',
@@ -62,6 +67,7 @@ class _FeedPostCardState extends State<FeedPostCard> {
                     color: Colors.black, fontWeight: FontWeight.bold))),
       ),
       InkWell(
+        // * this one should be available only to the post owner but who cares it doesnt work anyway hehe :D
         onTap: () {},
         child: ListTile(
             leading: const Icon(Icons.edit, color: Colors.black),
@@ -253,7 +259,7 @@ class _FeedPostCardState extends State<FeedPostCard> {
                     child: Text(
                       'view all $_commentLength comments',
                       style: Theme.of(context)
-                          .textTheme 
+                          .textTheme
                           .bodyText1
                           ?.copyWith(color: secondaryColor),
                     ),

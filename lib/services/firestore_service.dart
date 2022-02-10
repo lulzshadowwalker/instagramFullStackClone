@@ -1,8 +1,10 @@
 import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:instagram_fullstack_clone/models/post.dart';
 import 'package:instagram_fullstack_clone/services/storage_service.dart';
+import 'package:instagram_fullstack_clone/utils/utils.dart';
 import 'package:uuid/uuid.dart';
 
 class FirestoreService {
@@ -121,5 +123,28 @@ class FirestoreService {
       print('fukfuk');
       print(e.toString());
     }
+  }
+
+  // delete a post
+  Future<void> deletePost({
+    required String userId,
+    required String postId,
+    required BuildContext context,
+  }) async {
+    String response = 'unknown error occured';
+    try {
+      // you might also wanna delete it from storage but im not gonna bother me lazy very
+      await _firestore
+          .collection('users')
+          .doc(userId)
+          .collection('posts')
+          .doc(postId)
+          .delete();
+      response = 'deleted post';
+    } catch (e) {
+      response = e.toString();
+    }
+    giveSnackBar(context, response);
+    Navigator.of(context).pop();
   }
 } // end firestore service
